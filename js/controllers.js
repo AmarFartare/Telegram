@@ -947,43 +947,80 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
   })
 
-  .controller('AppImHistoryController', function ($scope, $location, $timeout, $rootScope, MtpApiManager, AppUsersManager, AppChatsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, PeersSelectService, IdleManager, StatusManager, ErrorService) {
-debugger;
+  .controller('AppImHistoryController', function ($scope, $location, $timeout, $rootScope, MtpApiManager, AppUsersManager, AppChatsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, PeersSelectService, IdleManager, StatusManager, ErrorService,QueueService) {
 
-$scope.slides = [
-            {image: 'img/img00.jpg', description: 'Image 00'},
-            {image: 'img/img01.jpg', description: 'Image 01'},
-            {image: 'img/img02.jpg', description: 'Image 02'},
-            {image: 'img/img03.jpg', description: 'Image 03'},
-            {image: 'img/img04.jpg', description: 'Image 04'}
-        ];
+    //debugger;
+var INTERVAL = 3000;
 
-        $scope.direction = 'left';
-        $scope.currentIndex = 0;
+    function setCurrentSlideIndex(index) {
+        $scope.currentIndex = index;
+    }
 
+    function isCurrentSlideIndex(index) {
+        return $scope.currentIndex === index;
+    }
 
-        $scope.setCurrentSlideIndex = function (index) {
-          debugger;
-            $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
-            $scope.currentIndex = index;
-        };
+    function nextSlide() {
+      if($scope.peerHistory != null)
+      {
+        $scope.currentIndex = ($scope.currentIndex < $scope.peerHistory.messages.length - 1) ? ++$scope.currentIndex : 0;
+      }
+        
+        $timeout(nextSlide, INTERVAL);
+    }
 
-        $scope.isCurrentSlideIndex = function (index) {
-          debugger;
-            return $scope.currentIndex === index;
-        };
+    function setCurrentAnimation(animation) {
+        $scope.currentAnimation = animation;
+    }
 
-        $scope.prevSlide = function () {
-          debugger;
-            $scope.direction = 'left';
-            $scope.currentIndex = ($scope.currentIndex < $scope.peerHistory.messages.length - 1) ? ++$scope.currentIndex : 0;
-        };
+    function isCurrentAnimation(animation) {
+        return $scope.currentAnimation === animation;
+    }
 
-        $scope.nextSlide = function () {
-          debugger;
-            $scope.direction = 'right';
-            $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.peerHistory.messages.length - 1;
-        };
+    function loadSlides() {
+
+      for (var i = 0; i < $scope.peerHistoriesmessages.length; i++) {
+
+        QueueService.loadManifest($scope.peerHistory.messages[i]);
+        
+      }
+        
+    }
+
+    $scope.$on('queueProgress', function(event, queueProgress) {
+        $scope.$apply(function(){
+            $scope.progress = queueProgress.progress * 100;
+        });
+    });
+
+    $scope.$on('queueComplete', function(event, slides) {
+        $scope.$apply(function(){
+          if($scope.peerHistory != null)
+          {
+            $scope.peerHistory.messages = slides;
+            
+          }
+          $scope.loaded = true;
+
+            $timeout(nextSlide, INTERVAL);
+            
+        });
+    });
+
+    $scope.progress = 0;
+    $scope.loaded = false;
+    $scope.currentIndex = 0;
+    $scope.currentAnimation = 'slide-left-animation';
+
+    $scope.setCurrentSlideIndex = setCurrentSlideIndex;
+    $scope.isCurrentSlideIndex = isCurrentSlideIndex;
+    $scope.setCurrentAnimation = setCurrentAnimation;
+    $scope.isCurrentAnimation = isCurrentAnimation;
+
+    //loadSlides();
+
+    
+
 
     $scope.$watch('curDialog', applyDialogSelect);
 
@@ -1015,7 +1052,6 @@ $scope.slides = [
     $scope.$on('history_media_toggle', function (e, mediaType) {
       toggleMedia(mediaType);
     });
-//debugger;
 
     $scope.$on('history_return_recent', returnToRecent);
 
@@ -1256,6 +1292,7 @@ $scope.slides = [
     };
 
     function loadHistory (forceRecent) {
+      //debugger;
       $scope.historyState.missedCount = 0;
 
       hasMore = false;
@@ -1329,14 +1366,24 @@ $scope.slides = [
           //debugger;
           peerHistory.messages.push(message);
           peerHistory.ids.push(id);
+          //QueueService.loadManifest(message);
+          //loadSlides(message);
         });
+        if(peerHistory.messages != null)
+        {
+          QueueService.loadManifest(peerHistory.messages);
+
+        }
+
+        
         peerHistory.messages.reverse();
         peerHistory.ids.reverse();
 
         if (AppMessagesManager.regroupWrappedHistory(peerHistory.messages)) {
           $scope.$broadcast('messages_regroup');
+
         }
-//debugger;
+
         if (historyResult.unreadOffset) {
           $scope.historyUnreadAfter = historyResult.history[historyResult.unreadOffset - 1];
         }
@@ -1354,6 +1401,7 @@ $scope.slides = [
       }, function () {
         safeReplaceObject($scope.state, {error: true});
       });
+//QueueService.loadManifest($scope.peerHistory.messages);
     }
 
     function showEmptyHistory () {
@@ -1771,29 +1819,7 @@ $scope.slides = [
         unreadAfterIdle = false;
       }
     });
-//
 
-    $scope.direction = 'left';
-        $scope.currentIndex = 0;
-
-        $scope.setCurrentSlideIndex = function (index) {
-            $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
-            $scope.currentIndex = index;
-        };
-
-        $scope.isCurrentSlideIndex = function (index) {
-            return $scope.currentIndex === index;
-        };
-
-        $scope.prevSlide = function () {
-            $scope.direction = 'left';
-            $scope.currentIndex = ($scope.currentIndex < $scope.peerHistory.messages.length - 1) ? ++$scope.currentIndex : 0;
-        };
-
-        $scope.nextSlide = function () {
-            $scope.direction = 'right';
-            $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.peerHistory.messages.length - 1;
-        };
 
   })
 

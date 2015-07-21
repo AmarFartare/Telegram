@@ -1,7 +1,11 @@
 
- <link href="NewCSS/css/bootstrap.css" rel="stylesheet">
-  <link rel="stylesheet" href="NewCSS/css/styles.css">
+ <!--<link href="NewCSS/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="NewCSS/css/styles.css">-->
 
+  <link href="images/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="images/css/styles.css">
+
+<script src="preloadjs-0.4.1.min.js"></script>
 
 <div my-head></div>
 
@@ -125,18 +129,20 @@
                        <!-- <div class="im_history_message_wrap " my-message ng-repeat="historyMessage in peerHistory.messages" style="-webkit-user-drag: none;">
                         </div>-->
 <div ng-app="myApp" ng-controller="AppImHistoryController">
-                        <div class="container slider">
-                          <!--  <img ng-repeat="slide in slides" class="slide slide-animation nonDraggableImage"
-                                 ng-swipe-right="nextSlide()" ng-swipe-left="prevSlide()"
-                                 ng-hide="!isCurrentSlideIndex($index)" ng-src="{{slide.image}}">-->
+                        <!--<div class="container slider">
+                         
                                  <div class="im_history_message_wrap slide slide-animation nonDraggableImage" my-message ng-repeat="historyMessage in peerHistory.messages" style="-webkit-user-drag: none;" ng-swipe-right="nextSlide()" ng-swipe-left="prevSlide()"
                                  ng-hide="!isCurrentSlideIndex($index)">
                         </div>
 
                             <span class="arrow prev" ng-click="nextSlide()"></span>
                             <span class="arrow next" ng-click="prevSlide()"></span>
-                          </div>
-                        </div>
+                          </div>-->
+                          <div g-show="loaded" bg-image class="fullBg {{currentAnimation}} im_history_message_wrap" my-message ng-repeat="historyMessage in peerHistory.messages" ng-if="isCurrentSlideIndex($index)"></div>
+                          <!--<img ng-show="loaded" bg-image class="fullBg {{currentAnimation}}" ng-repeat="slide in slides"
+         ng-if="isCurrentSlideIndex($index)"
+         ng-src="{{slide.src}}">-->
+</div>
                       </div>
 
                     </div>

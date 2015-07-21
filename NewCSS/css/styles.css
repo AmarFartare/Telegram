@@ -29,32 +29,32 @@
     height: 71px;
     outline: none;
     cursor: pointer;
-    background: url('NewCSS/img/blank.gif') no-repeat;
+    background: url('/app/NewCSS/img/blank.gif') no-repeat;
   
 }
 
 .arrow.prev {
     opacity: 0.2;
     left: 20px;
-    background-image: url('NewCSS/img/paddle_prev_999.png');
+    background-image: url('/app/NewCSS/img/paddle_prev_999.png');
     transition: 0.2s linear all;
 }
 
 .arrow.next {
     opacity: 0.2;
     right: 20px;
-    background-image: url('NewCSS/img/paddle_next_999.png');
+    background-image: url('/app/NewCSS/img/paddle_next_999.png');
     transition: 0.2s linear all;
 }
 
 .arrow.prev:hover {
     opacity: 1;
-    background-image: url('NewCSS/img/paddle_prev_fff.png');
+    background-image: url('/app/NewCSS/img/paddle_prev_fff.png');
 }
 
 .arrow.next:hover {
     opacity: 1;
-    background-image: url('NewCSS/img/paddle_next_fff.png');
+    background-image: url('/app/NewCSS/img/paddle_next_fff.png');
 }
 
 .animate-enter, 
