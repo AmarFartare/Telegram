@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="css/app.css"/>
   <!-- endbuild -->
 
+  <!--New-->
+  <link href="NewCSS/css/bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="NewCSS/css/styles.css">
+
   <!-- <link rel="stylesheet" href="css/font.css"/> -->
   <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&amp;subset=cyrillic,cyrillic-ext,latin,latin-ext" rel="stylesheet" type="text/css"> -->
 
@@ -40,8 +44,8 @@
 <body>
 
   <div class="page_wrap" ng-view></div>
-  <div id="notify_sound">
-  </div>
+
+  <div id="notify_sound"></div>
 
   <!-- build:js js/app.js -->
   <script type="text/javascript" src="js/lib/polyfill.js"></script>
@@ -50,12 +54,17 @@
   <script type="text/javascript" src="js/init.js"></script>
   <script type="text/javascript" src="vendor/jquery.nanoscroller/nanoscroller.js"></script>
 
+
+
   <script type="text/javascript" src="vendor/angular/angular.js"></script>
   <script type="text/javascript" src="vendor/angular/angular-route.js"></script>
   <script type="text/javascript" src="vendor/angular/angular-animate.js"></script>
   <script type="text/javascript" src="vendor/angular/angular-sanitize.js"></script>
-  <script type="text/javascript" src="vendor/angular/angular-touch.js"></script>
+ <script type="text/javascript" src="vendor/angular/angular-touch.js"></script>
   <script type="text/javascript" src="vendor/ui-bootstrap/ui-bootstrap-custom-tpls-0.12.0.js"></script>
+   <script type="text/javascript" src="vendor/angular/TweenMax.min.js"></script>
+ 
+
   <script type="text/javascript" src="vendor/angular-media-player/angular-media-player.js"></script>
 
   <script type="text/javascript" src="vendor/jsbn/jsbn_combined.js"></script>
@@ -87,8 +96,7 @@
   <script type="text/javascript" src="js/message_composer.js"></script>
   <script type="text/javascript" src="js/directives.js"></script>
   <script type="text/javascript" src="js/directives_mobile.js"></script>
-
   <!-- endbuild -->
-  
+
 </body>
 </html>
